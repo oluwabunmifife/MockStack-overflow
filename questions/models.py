@@ -18,4 +18,10 @@ class Question(models.Model):
 class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE,
+                                 related_name="answers")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.author.username
