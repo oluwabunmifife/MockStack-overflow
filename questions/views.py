@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Question
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, QuestionRegisterForm
 
 # Create your views here.
 def question_list(request):
@@ -24,3 +24,17 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, "register.html", {"user_form": user_form})
+
+def create_question(request):
+    if request.method == "POST":
+       question_form = QuestionRegisterForm(request.POST)
+
+       if question_form.is_valid():
+           question = question_form.save(commit=False)
+           question.author = request.user
+           question = question_form.save()
+
+           return redirect('qlist')
+    else:
+        question_form = QuestionRegisterForm()
+    return render(request, 'add_question.html', {"question_form": question_form})
