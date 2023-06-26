@@ -11,4 +11,24 @@
         <p>Published: {{ question.created_at  }}</p>
     </div>
 
+    <hr>
+
+    <div class="container">
+        {% for answers in answer_list %}
+            <div class="card mt-4 py-3 shadow">
+                <div class="card-body">
+                    <p class="card-text">{{answers.description}}</p>
+                    <div class="row">
+                        <div class="col col-md-auto">
+                            Answered By: {{ answers.author.username }}
+                        </div>
+                        <div class="col col-md-auto">
+                            Answered At: {{ answers.created_at}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock  %}

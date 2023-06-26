@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Question
+from .models import Question, Answer
 from .forms import UserRegistrationForm, QuestionRegisterForm
 
 # Create your views here.
@@ -9,7 +9,8 @@ def question_list(request):
 
 def question_details(request, slug):
     question = get_object_or_404(Question, slug=slug)
-    return render(request, 'QDetails.html', {'question': question})
+    answer_list = Answer.objects.filter(question=question)
+    return render(request, 'QDetails.html', {'question': question, 'answer_list': answer_list})
 
 def register(request):
     if request.method == "POST":
