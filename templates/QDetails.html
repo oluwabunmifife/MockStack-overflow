@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags%}
 
 {% block title %}Question Details{% endblock  %}
 
@@ -29,6 +30,21 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+
+    <!-- Adding Answer -->
+    <div class="container">
+        <div class="card mt-4">
+            <form method="post" novalidate>
+                <h5 class="card-header">Add Answer</h5>
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+                    <input type="submit" value="Submit Answer" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
     </div>
 
 {% endblock  %}

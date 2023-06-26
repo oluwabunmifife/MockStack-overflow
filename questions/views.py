@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Question, Answer
-from .forms import UserRegistrationForm, QuestionRegisterForm
+from .forms import UserRegistrationForm, QuestionRegisterForm, AnswerForm
 
 # Create your views here.
 def question_list(request):
@@ -10,7 +10,23 @@ def question_list(request):
 def question_details(request, slug):
     question = get_object_or_404(Question, slug=slug)
     answer_list = Answer.objects.filter(question=question)
-    return render(request, 'QDetails.html', {'question': question, 'answer_list': answer_list})
+
+    #Adding answers
+
+
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = request.user
+            answer = form.save()
+
+            return redirect('qdetails', slug=question.slug)
+        
+    else:
+        form = AnswerForm()
+    return render(request, 'QDetails.html', {'question': question, 'answer_list': answer_list, 'form': form})
 
 def register(request):
     if request.method == "POST":
