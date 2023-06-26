@@ -10,9 +10,16 @@
 
         <h6>Posted By: <i>{{ question.author }} </i></h6>
         <p>Published: {{ question.created_at  }}</p>
+
+        <hr>
+        {% if request.user == question.author %}
+        <a href="" class="btn btn-danger">Delete</a>
+        <a href="{% url 'update_question' question.slug %}" class="btn btn-success">Update</a>       
+        {% endif %}
+
     </div>
 
-    <hr>
+
 
     <div class="container">
         {% for answers in answer_list %}
