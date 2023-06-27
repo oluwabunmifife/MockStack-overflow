@@ -40,3 +40,8 @@ class AnswerUpdateForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ['description']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email']
