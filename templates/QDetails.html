@@ -13,8 +13,8 @@
 
         <hr>
         {% if request.user == question.author %}
-        <a href="" class="btn btn-danger">Delete</a>
         <a href="{% url 'update_question' question.slug %}" class="btn btn-success">Update</a>       
+        <a href="{% url 'delete_question' question.slug %}" class="btn btn-danger">Delete</a>
         {% endif %}
 
     </div>

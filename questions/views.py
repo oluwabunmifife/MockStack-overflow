@@ -68,3 +68,8 @@ def update_question(request, slug):
         return redirect('qlist')
         
     return render(request, 'update.html', {"form": update_form})
+
+def delete_question(request, slug):
+    question = get_object_or_404(Question, slug=slug)
+    question.delete()
+    return redirect('qlist')
