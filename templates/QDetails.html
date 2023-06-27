@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     {% if request.user == answers.author %}
-                    <a href="" class="btn btn-outline-danger btn-sm mt-3">Delete</a>
+                    <a href="{% url 'delete_answer' answers.id %}" class="btn btn-outline-danger btn-sm mt-3">Delete</a>
                     <a href="{% url 'update_answer' answers.id %}" class="btn btn-outline-success btn-sm mt-3">Update</a>
                     {% endif %}
                 </div>

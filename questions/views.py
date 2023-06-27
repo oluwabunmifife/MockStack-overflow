@@ -83,3 +83,8 @@ def update_answer(request, id):
         form.save()
         return redirect('qdetails', slug=answer.question.slug)
     return render(request, 'update_question.html', {"form": form})
+
+def delete_answer(request, id):
+    answer = get_object_or_404(Answer, id=id)
+    answer.delete()
+    return redirect('qdetails', slug = answer.question.slug)
