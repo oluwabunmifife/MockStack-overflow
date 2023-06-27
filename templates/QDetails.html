@@ -22,6 +22,7 @@
 
 
     <div class="container">
+        <h3 class="mt-3">Answers:</h3>
         {% for answers in answer_list %}
             <div class="card mt-4 py-3 shadow">
                 <div class="card-body">
@@ -34,6 +35,10 @@
                             Answered At: {{ answers.created_at}}
                         </div>
                     </div>
+                    {% if request.user == answers.author %}
+                    <a href="" class="btn btn-outline-danger btn-sm mt-3">Delete</a>
+                    <a href="{% url 'update_answer' answers.id %}" class="btn btn-outline-success btn-sm mt-3">Update</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
