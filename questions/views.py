@@ -99,3 +99,8 @@ def change_profile(request):
             messages.success(request, 'Profile updated successfully')
     form = ProfileForm(instance=request.user)
     return render(request, 'registration/profile.html', {'form': form})
+
+def list_info(request):
+    questions = Question.objects.filter(author = request.user).order_by('-created_at')
+    answers = Answer.objects.filter(author = request.user).order_by('-created_at')
+    return render(request, 'list_info.html', {'questions': questions, 'answers': answers})
