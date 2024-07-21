@@ -26,7 +26,7 @@ jobs:
       #       EC2_HOST_2: $EC2_HOST_2
 
       - name: Run docker commands on both host 1
-        run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "docker compose up --build"
+        run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "cd /home/ubuntu/MockStack-overflow && docker compose up --build"
 
       # - name: Run docker commands on both host 2
       #   run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST_2 "docker compose up --build"
