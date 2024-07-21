@@ -21,15 +21,15 @@ jobs:
             EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
             EC2_URL: $EC2_URL
 
-      # - name: Setup SSH for EC2 server 2
-      #   uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
-      #   with:
-      #       EC2_SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
-      #       EC2_HOST_2: $EC2_HOST_2
-
-      - name: Run docker commands on both host 1
+      - name: Run docker commands on server 1
         run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "cd /home/ubuntu/MockStack-overflow && docker compose up --build -d"
 
-      # - name: Run docker commands on both host 2
-      #   run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST_2 "docker compose up --build"
 
+
+        # run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
+        #         cd /home/ubuntu
+        #         rm -rf MockStack-overflow
+        #         git clone https://github.com/oluwabunmifife/MockStack-overflow.git
+        #         cd /home/ubuntu/MockStack-overflow
+        #         docker compose up --build -d
+        #       EOF
