@@ -1,0 +1,7 @@
+:80 {
+  reverse_proxy [hosts] {  # Ip addresses go here :)
+    lb_policy random
+}
+}
+
+# File is stored at /etc/caddy/Caddyfile by default
