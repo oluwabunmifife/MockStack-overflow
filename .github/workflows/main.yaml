@@ -16,13 +16,13 @@ jobs:
       - name: Setup SSH for EC2 server 1
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
         with:
-            SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
+            SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
             EC2_HOST_1: $EC2_HOST_1
 
       - name: Setup SSH for EC2 server 2
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
         with:
-            SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
+            SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
             EC2_HOST_2: $EC2_HOST_2
 
       - name: Run docker commands on both host 1
