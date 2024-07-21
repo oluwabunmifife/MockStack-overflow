@@ -1,35 +1,28 @@
-name: Build server1
+name: Build server2
 
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ["Build server1"]
+    types:
+      - completed
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-      EC2_URL: ${{ secrets.EC2_URL }}
+      EC2_URL: ${{ secrets.EC2_HOST_2 }}
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
   
-      - name: Setup SSH for EC2 server 1
+      - name: Setup SSH for EC2 server 2
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
         with:
             EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
             EC2_URL: $EC2_URL
 
-      # - name: Setup SSH for EC2 server 2
-      #   uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
-      #   with:
-      #       EC2_SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
-      #       EC2_HOST_2: $EC2_HOST_2
-
       - name: Run docker commands on both host 1
         run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "cd /home/ubuntu/MockStack-overflow && docker compose up --build -d"
-
-      # - name: Run docker commands on both host 2
-      #   run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST_2 "docker compose up --build"
 
