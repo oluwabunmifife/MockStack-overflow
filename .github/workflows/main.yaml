@@ -32,10 +32,10 @@ jobs:
           up-flags: "--build -d"
 
       - name: Tag the docker image
-        run: docker tag mockoverflow ${{ secrets.DOCKER_USERNAME }}/mockstack-overflow:latest
+        run: docker tag mockstackoverflow ${{ secrets.DOCKER_USERNAME }}/mockstack-overflow-web:latest
 
       - name: Publish image to docker hub
-        run: docker push mockstack-overflow:latest
+        run: docker push mockstack-overflow-web:latest
 
       - name: Login to servers
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
