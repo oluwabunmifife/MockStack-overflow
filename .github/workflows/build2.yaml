@@ -103,9 +103,9 @@ jobs:
 
       - name: Deploy to Server (Dynamic based on matrix)
         run: |
-          server_url=${{ secrets[${{ secrets.EC2_SECRET_NAME_1 }}.URL] }}  # Assuming EC2_SECRET_NAME_1 holds URL for ec2-instance-1
+          server_url=${{ secrets[secrets.EC2_SECRET_NAME_1].URL }}  # Assuming EC2_SECRET_NAME_1 holds URL for ec2-instance-1
           if [[ "${{ matrix.server_list }}" == "ec2-instance-2" ]]; then
-            server_url=${{ secrets[${{ secrets.EC2_SECRET_NAME_2 }}.URL] }}  # Assuming EC2_SECRET_NAME_2 holds URL for ec2-instance-2
+            server_url=${{ secrets[secrets.EC2_SECRET_NAME_2].URL }}  # Assuming EC2_SECRET_NAME_2 holds URL for ec2-instance-2
           fi
           ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$server_url << 'EOF'
             echo "Successful"
