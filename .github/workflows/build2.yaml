@@ -90,7 +90,7 @@ jobs:
       matrix:
         server_list: ${{ server_list }}  # Reference the defined list (within strategy)
     env:
-      EC2_SSH_PRIVATE_ KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
