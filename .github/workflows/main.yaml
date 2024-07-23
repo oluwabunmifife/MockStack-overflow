@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        server: [${{secrets.EC2_URL, secrets.EC2_HOST_2}}]
+        server: 
+          - ${{ secrets.EC2_URL }} 
+          - ${{ secrets.EC2_HOST_2 }}
     env:
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       # EC2_URL: ${{ secrets.EC2_URL }}
