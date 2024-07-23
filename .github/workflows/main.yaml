@@ -12,7 +12,6 @@ jobs:
         server: [54.167.38.176, 3.92.79.1]
     env:
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-      # EC2_URL: ${{ secrets.EC2_URL }}
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -42,9 +41,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
-      # - name: Add EC2 host to known hosts
-      #   run: ssh-keyscan -H "${{ matrix.hosts }}" >> ~/.ssh/known_hosts
-
       - name: Login to servers
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
         with:
@@ -59,13 +55,3 @@ jobs:
             docker pull $DOCKER_USERNAME/mockstack-overflow-web:latest
             docker compose up -d
           EOF
-
-
-
-        # run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
-        #         cd /home/ubuntu
-        #         rm -rf MockStack-overflow
-        #         git clone https://github.com/oluwabunmifife/MockStack-overflow.git
-        #         cd /home/ubuntu/MockStack-overflow
-        #         docker compose up --build -d
-        #       EOF
