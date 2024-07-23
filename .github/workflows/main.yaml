@@ -37,10 +37,10 @@ jobs:
       - name: Publish image to docker hub
         run: docker push fifss/mockstack-overflow-web:latest
 
-      # - name: Setup SSH for EC2
-      #   uses: webfactory/ssh-agent@v0.5.3
-      #   with:
-      #     ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      - name: Setup SSH for EC2
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
       # - name: Add EC2 host to known hosts
       #   run: ssh-keyscan -H "${{ matrix.hosts }}" >> ~/.ssh/known_hosts
