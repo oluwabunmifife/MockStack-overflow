@@ -35,7 +35,7 @@ jobs:
         run: docker tag mockstack-overflow-web ${{ secrets.DOCKER_USERNAME }}/mockstack-overflow-web:latest
 
       - name: Publish image to docker hub
-        run: docker push mockstack-overflow-web:latest
+        run: docker push fifss/mockstack-overflow-web:latest
 
       - name: Login to servers
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
