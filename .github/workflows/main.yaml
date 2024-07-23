@@ -37,16 +37,24 @@ jobs:
       - name: Publish image to docker hub
         run: docker push fifss/mockstack-overflow-web:latest
 
-      - name: Login to servers
-        uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
+      - name: Setup SSH for EC2
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-            EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
-            EC2_URL: ${{ matrix.hosts }}
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+
+      - name: Add EC2 host to known hosts
+        run: ssh-keyscan -H "${{ matrix.hosts }}" >> ~/.ssh/known_hosts
+
+      # - name: Login to servers
+      #   uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
+      #   with:
+      #       EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
+      #       EC2_URL: ${{ matrix.hosts }}
 
       - name: Run docker commands on server 1
         run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
                   docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-                  docker pull fifss/mockstack-overflow:latest
+                  docker pull fifss/mockstack-overflow-web:latest
                   docker compose up -d
 
 
