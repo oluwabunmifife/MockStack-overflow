@@ -16,7 +16,9 @@ jobs:
 
     strategy:
       matrix:
-        hosts: [${{ secrets.EC2_URL }}, ${{ secrets.EC2_HOST_2 }}]
+        server:
+          - ${{ secrets.EC2_URL }}
+          - ${{ secrets.EC2_HOST_2 }}
 
     steps:
       - name: Checkout source
@@ -42,8 +44,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
-      - name: Add EC2 host to known hosts
-        run: ssh-keyscan -H "${{ matrix.hosts }}" >> ~/.ssh/known_hosts
+      # - name: Add EC2 host to known hosts
+      #   run: ssh-keyscan -H "${{ matrix.hosts }}" >> ~/.ssh/known_hosts
 
       # - name: Login to servers
       #   uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
@@ -52,7 +54,7 @@ jobs:
       #       EC2_URL: ${{ matrix.hosts }}
 
       - name: Run docker commands on server 1
-        run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
+        run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@${{ matrix.server }} << 'EOF'
                   docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
                   docker pull fifss/mockstack-overflow-web:latest
                   docker compose up -d
