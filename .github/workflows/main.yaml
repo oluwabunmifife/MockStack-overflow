@@ -49,7 +49,7 @@ jobs:
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
         with:
             EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
-            EC2_URL: ${{ matrix.hosts }}
+            EC2_URL: ${{ matrix.server }}
 
       - name: Run docker commands on server 1
         run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@${{ matrix.server }} << 'EOF'
