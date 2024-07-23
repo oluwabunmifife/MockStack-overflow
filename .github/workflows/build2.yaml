@@ -1,36 +1,36 @@
-name: Build server2
+# name: Build server2
 
-on:
-  workflow_run:
-    workflows: ["Build server1"]
-    types:
-      - completed
+# on:
+#   workflow_run:
+#     workflows: ["Build server1"]
+#     types:
+#       - completed
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-      EC2_URL: ${{ secrets.EC2_HOST_2 }}
-      EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v3
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     env:
+#       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+#       EC2_URL: ${{ secrets.EC2_HOST_2 }}
+#       EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+#     steps:
+#       - name: Checkout source
+#         uses: actions/checkout@v3
   
-      - name: Setup SSH for EC2 server 2
-        uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
-        with:
-            EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
-            EC2_URL: $EC2_URL
+#       - name: Setup SSH for EC2 server 2
+#         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
+#         with:
+#             EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
+#             EC2_URL: $EC2_URL
 
-      - name: Run docker commands on server 2
-        run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "cd /home/ubuntu/MockStack-overflow && docker compose up --build -d"
+#       - name: Run docker commands on server 2
+#         run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "cd /home/ubuntu/MockStack-overflow && docker compose up --build -d"
 
 
-        # run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
-        #         cd /home/ubuntu
-        #         rm -rf MockStack-overflow
-        #         git clone https://github.com/oluwabunmifife/MockStack-overflow.git
-        #         cd /home/ubuntu/MockStack-overflow
-        #         docker compose up --build -d
-        #       EOF
+#         # run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
+#         #         cd /home/ubuntu
+#         #         rm -rf MockStack-overflow
+#         #         git clone https://github.com/oluwabunmifife/MockStack-overflow.git
+#         #         cd /home/ubuntu/MockStack-overflow
+#         #         docker compose up --build -d
+#         #       EOF

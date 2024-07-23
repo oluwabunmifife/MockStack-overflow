@@ -5,24 +5,47 @@ on:
     branches: [main]
 
 jobs:
+  hosts-matix:
+    strategy:
+      matrix:
+        hosts: [secrets.EC2_URL, secrets.EC2_HOST_2]
+
   build:
     runs-on: ubuntu-latest
     env:
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       EC2_URL: ${{ secrets.EC2_URL }}
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
-  
-      - name: Setup SSH for EC2 server 1
+      
+      - name: Login to Docker
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build docker image
+        uses: hoverkraft-tech/compose-action@v0.0.0
+        with:
+          compose-file: "./compose.yaml"
+          up-flags: "--build -d"
+
+      - name: Publish image to docker hub
+        run: docker push mockstack-overflow:latest
+
+      - name: Login to servers
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
         with:
             EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
-            EC2_URL: $EC2_URL
+            EC2_URL: ${{ matrix.hosts }}
 
       - name: Run docker commands on server 1
-        run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "cd /home/ubuntu/MockStack-overflow && docker compose up --build -d"
+        run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
+                  docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+                  docker pull fifss/mockstack-overflow:latest
+                  docker compose up -d
 
 
 
