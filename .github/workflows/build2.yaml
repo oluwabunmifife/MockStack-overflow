@@ -79,16 +79,16 @@ on:
   push:
     branches: [main]
 
-server_list:  # List of servers to deploy to (outside jobs section)
-  - ec2-instance-1
-  - ec2-instance-2
+# server_list:  # List of servers to deploy to (outside jobs section)
+#   - ec2-instance-1
+#   - ec2-instance-2
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        server_list: ${{ server_list }}  # Reference the defined list (within strategy)
+        server_list: [ ec2-instance-1, ec2-instance-2 ]  # Reference the defined list (within strategy)
     env:
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
