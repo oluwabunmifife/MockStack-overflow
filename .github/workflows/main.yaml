@@ -31,6 +31,9 @@ jobs:
           compose-file: "./compose.yaml"
           up-flags: "--build -d"
 
+      - name: Tag the docker image
+        run: docker tag mockoverflow ${{ secrets.DOCKER_USERNAME }}/mockstack-overflow:latest
+
       - name: Publish image to docker hub
         run: docker push mockstack-overflow:latest
 
