@@ -55,10 +55,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no $EC2_USERNAME@${{ matrix.server }} << EOF
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            cd /home/ubuntu
+            cd /home/ubuntu/MockStack-overflow
             docker pull $DOCKER_USERNAME/mockstack-overflow-web:latest
             docker compose up -d
-                EOF
+          EOF
 
 
 
