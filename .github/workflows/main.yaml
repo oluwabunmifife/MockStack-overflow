@@ -7,6 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        server:
+          - ${{ secrets.EC2_URL }}
+          - ${{ secrets.EC2_HOST_2 }}
     env:
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       # EC2_URL: ${{ secrets.EC2_URL }}
@@ -14,11 +19,6 @@ jobs:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    strategy:
-      matrix:
-        server:
-          - ${{ secrets.EC2_URL }}
-          - ${{ secrets.EC2_HOST_2 }}
 
     steps:
       - name: Checkout source
