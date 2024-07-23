@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        hosts: [secrets.EC2_URL, secrets.EC2_HOST_2]
+        hosts: [${{ secrets.EC2_URL }}, ${{ secrets.EC2_HOST_2 }}]
 
     steps:
       - name: Checkout source
