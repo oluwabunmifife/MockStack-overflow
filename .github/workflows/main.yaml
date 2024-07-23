@@ -47,7 +47,7 @@ jobs:
             EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
             EC2_URL: ${{ matrix.server }}
 
-      - name: Run docker commands on server 1
+      - name: Run docker commands on server 1 & 2
         run: |
           ssh -o StrictHostKeyChecking=no $EC2_USERNAME@${{ matrix.server }} << EOF
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
