@@ -56,6 +56,7 @@ jobs:
                   docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
                   docker pull fifss/mockstack-overflow-web:latest
                   docker compose up -d
+                EOF
 
 
 
