@@ -53,5 +53,7 @@ jobs:
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             cd /home/ubuntu/MockStack-overflow
             docker pull $DOCKER_USERNAME/mockstack-overflow-web:latest
-            docker compose up -d
+            docker stop mockstack-overflow-web || true
+            docker rm mockstack-overflow-web || true
+            docker run -d --name mockstack-overflow-web -p 8000:8000 $DOCKER_USERNAME/mockstack-overflow-web:latest
           EOF
