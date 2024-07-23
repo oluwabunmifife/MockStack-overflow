@@ -35,7 +35,12 @@
 #         #         docker compose up --build -d
 #         #       EOF
 
+name: Build server1/2 test matrix
 
+on:
+  push:
+    branches: [main]
+    
 server_list:  # List of servers to deploy to
   - ec2-instance-1
   - ec2-instance-2
