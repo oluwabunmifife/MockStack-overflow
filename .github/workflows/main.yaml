@@ -55,5 +55,5 @@ jobs:
             docker pull $DOCKER_USERNAME/mockstack-overflow-web:latest
             docker stop mockstack-overflow-web || true
             docker rm mockstack-overflow-web || true
-            docker run --name mockstack-overflow-web -p 8000:8000 $DOCKER_USERNAME/mockstack-overflow-web:latest
+            RUNNER_TRACKING_ID="" && docker run -d --name mockstack-overflow-web -p 8000:8000 $DOCKER_USERNAME/mockstack-overflow-web:latest
           EOF
