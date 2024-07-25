@@ -36,10 +36,10 @@ jobs:
       - name: Publish image to docker hub
         run: docker push fifss/mockstack-overflow-web:latest
 
-      - name: Setup SSH for EC2
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      # - name: Setup SSH for EC2
+      #   uses: webfactory/ssh-agent@v0.5.3
+      #   with:
+      #     ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
       - name: Login to servers
         uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
@@ -53,17 +53,17 @@ jobs:
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             cd /home/ubuntu/MockStack-overflow
             docker pull $DOCKER_USERNAME/mockstack-overflow-web:latest
+            docker run -d --name mockstack-overflow-web -p 8000:8000 $DOCKER_USERNAME/mockstack-overflow-web:latest
           EOF
         
-      - name: Run docker compose up -d
-        uses: alex-ac/github-action-ssh-docker-compose@master
-        with:
-            ssh_host: ${{ matrix.server }}
-            ssh_private_key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-            ssh_user: ${{ secrets.EC2_USERNAME }}
-            docker_compose_prefix: mockstack-overflow-web
+      # - name: Run docker compose up -d
+      #   uses: alex-ac/github-action-ssh-docker-compose@master
+      #   with:
+      #       ssh_host: ${{ matrix.server }}
+      #       ssh_private_key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      #       ssh_user: ${{ secrets.EC2_USERNAME }}
+      #       docker_compose_prefix: mockstack-overflow-web
             # docker_compose_down: 'false'
     
-    # RUNNER_TRACKING_ID="" && docker run -d --name mockstack-overflow-web -p 8000:8000 $DOCKER_USERNAME/mockstack-overflow-web:latest
     # docker stop mockstack-overflow-web || true
     # docker rm mockstack-overflow-web || true
