@@ -6,6 +6,7 @@ services:
     environment:
       - SQLITE3_DB=db.sqlite3
   web:
+    # image: "docker.io/fifss/mockstack-overflow-web:latest"
     build: .
     command: python3.9 manage.py runserver 0.0.0.0:8000
     volumes:
