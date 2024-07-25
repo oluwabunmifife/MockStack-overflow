@@ -24,11 +24,14 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build docker image
-        uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: "./compose.yaml"
-          up-flags: "--build -d"
+      # - name: Build docker image
+      #   uses: hoverkraft-tech/compose-action@v2.0.1
+      #   with:
+      #     compose-file: "./compose.yaml"
+      #     up-flags: "--build -d"
+
+      - name: Run docker compose up --build
+        run: docker compose up --build && docker compose down
 
       - name: Tag the docker image
         run: docker tag mockstack-overflow-web ${{ secrets.DOCKER_USERNAME }}/mockstack-overflow-web:latest
