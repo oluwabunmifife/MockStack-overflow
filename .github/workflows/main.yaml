@@ -30,8 +30,10 @@ jobs:
       #     compose-file: "./compose.yaml"
       #     up-flags: "--build -d"
 
-      - name: Run docker compose up --build
-        run: docker compose up --build && docker compose down
+      - name: Build Docker Image
+        run: |
+          docker compose up --build -d
+          docker compose down
 
       - name: Tag the docker image
         run: docker tag mockstack-overflow-web ${{ secrets.DOCKER_USERNAME }}/mockstack-overflow-web:latest
