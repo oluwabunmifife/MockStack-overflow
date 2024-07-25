@@ -61,6 +61,7 @@ jobs:
             ssh_host: ${{ matrix.server }}
             ssh_private_key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
             ssh_user: ${{ secrets.EC2_USERNAME }}
+            docker_compose_prefix: mockstack-overflow
             # docker_compose_down: 'false'
     
     # RUNNER_TRACKING_ID="" && docker run -d --name mockstack-overflow-web -p 8000:8000 $DOCKER_USERNAME/mockstack-overflow-web:latest
