@@ -57,6 +57,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no $EC2_USERNAME@${{ matrix.server }} << EOF
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             docker pull $DOCKER_USERNAME/mockstack-overflow-web:latest
+            docker stop mockstack-overflow-web || true
+            docker rm mockstack-overflow-web || true
             docker run -d --name mockstack-overflow-web -p 8000:8000 $DOCKER_USERNAME/mockstack-overflow-web:latest
           EOF
         
@@ -69,5 +71,3 @@ jobs:
       #       docker_compose_prefix: mockstack-overflow-web
             # docker_compose_down: 'false'
     
-    # docker stop mockstack-overflow-web || true
-    # docker rm mockstack-overflow-web || true
