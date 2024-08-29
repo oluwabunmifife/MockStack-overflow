@@ -3,8 +3,15 @@ from .models import Question, Answer
 from django.contrib import messages
 from .forms import UserRegistrationForm, QuestionRegisterForm, AnswerForm, QuestionUpdateForm, AnswerUpdateForm, ProfileForm
 from django.contrib.auth.decorators import login_required
+from prometheus_client import Counter, Histogram
 
-# Create your views here.
+ # Initialize answer counter
+answer_count = Counter('answer_count', 'Number of answers')
+
+# Initializing question counter
+question_counter = Counter('question_counter', 'Number of questions created')
+
+
 @login_required
 def question_list(request):
     if 'q' in request.GET:
@@ -19,10 +26,7 @@ def question_list(request):
 def question_details(request, slug):
     question = get_object_or_404(Question, slug=slug)
     answer_list = Answer.objects.filter(question=question)
-
     #Adding answers
-
-
     if request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
@@ -31,11 +35,13 @@ def question_details(request, slug):
             answer.author = request.user
             answer = form.save()
 
+            # increment answer counter
+            answer_count.inc()
             return redirect('qdetails', slug=question.slug)
         
     else:
         form = AnswerForm()
-    return render(request, 'QDetails.html', {'question': question, 'answer_list': answer_list, 'form': form})
+    return render(request, 'QDetails.html', {'question': question, 'answer_list': answer_list, 'form': form, 'answer_count': answer_count})
 
 def register(request):
     if request.method == "POST":
@@ -51,20 +57,34 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request, "register.html", {"user_form": user_form})
 
+
+# Define Histogram for request latency
+QUESTION_CREATION_LATENCY = Histogram(
+    'question_creation_latency_seconds',
+    'Latency of HTTP requests for creating questions',
+    buckets=[0.1, 0.5, 1, 2.5, 5, 10]
+)
+
 @login_required
 def create_question(request):
-    if request.method == "POST":
-       question_form = QuestionRegisterForm(request.POST)
+    # Initialize histogram for request latency
+    with QUESTION_CREATION_LATENCY.time():
+        if request.method == "POST":
+            question_form = QuestionRegisterForm(request.POST)
 
-       if question_form.is_valid():
-           question = question_form.save(commit=False)
-           question.author = request.user
-           question = question_form.save()
+            if question_form.is_valid():
+                question = question_form.save(commit=False)
+                question.author = request.user
+                question = question_form.save()
 
-           return redirect('qlist')
-    else:
-        question_form = QuestionRegisterForm()
-    return render(request, 'add_question.html', {"question_form": question_form})
+                # Increment question counter
+                question_counter.inc()
+
+
+                return redirect('qlist')
+        else:
+            question_form = QuestionRegisterForm()
+        return render(request, 'add_question.html', {"question_form": question_form, "question_counter": question_counter})
 
 
 @login_required
