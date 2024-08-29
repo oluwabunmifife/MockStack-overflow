@@ -67,7 +67,7 @@ QUESTION_CREATION_LATENCY = Histogram(
 
 @login_required
 def create_question(request):
-    # Initialize histogram for request latency
+    # Initialize histogram for request latenc
     with QUESTION_CREATION_LATENCY.time():
         if request.method == "POST":
             question_form = QuestionRegisterForm(request.POST)
